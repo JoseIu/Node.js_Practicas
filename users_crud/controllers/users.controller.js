@@ -1,4 +1,5 @@
 import { USERS } from '../user_DB.js';
+
 const getUsers = (req, res) => {
   res.status(200).json({ status: 'okey', USERS });
 };
@@ -51,4 +52,16 @@ const upDateUser = (req, res) => {
   res.status(200).json({ staus: 'OK', smg: 'Usuario modificado correctamente', user });
 };
 
-export { addUser, getUser, getUsers, upDateUser };
+const deleteUser = (req, res) => {
+  const { id } = req.params;
+
+  const userToDelete = USERS.findIndex((user) => user.id === id);
+
+  if (userToDelete === -1) return res.status(404).json({ status: 'Bad request', msg: 'El usuario no encontrado' });
+
+  USERS.splice(userToDelete, 1);
+
+  res.status(200).json({ status: 'BOK', msg: 'Usuario eliminado correctamente' });
+};
+
+export { addUser, deleteUser, getUser, getUsers, upDateUser };
